@@ -1,0 +1,28 @@
+﻿@page "/"
+@namespace RestApi_test.Pages
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+
+<!DOCTYPE html>
+<html>
+<head>
+    <base href="~/" />
+    <meta name="viewport" content="width=device-width" />
+    <title>My Blazor App</title>
+    <environment include="Development">
+        <link rel="stylesheet" href="css/bootstrap/bootstrap.min.css" />
+    </environment>
+    <environment exclude="Development">
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
+              integrity="sha384-HhT3ADq9vsLScRym7vwh0CauMAtT7RLS+0QLfTmOEx8DnLWaxdyz5gbzE2Hz5/3s"
+              crossorigin="anonymous" />
+    </environment>
+</head>
+<body>
+    <environment include="Development">
+        <script src="_framework/blazor.server.js"></script>
+    </environment>
+    <environment exclude="Development">
+        <script src="_framework/blazor.server.js" asp-suppress-async-warnings="true"></script>
+    </environment>
+</body>
+</html>

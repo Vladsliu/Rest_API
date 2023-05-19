@@ -1,0 +1,32 @@
+﻿@page "/st"
+@using RestApi_test.Data
+@inject StatisticsService statisticsService
+
+<h1>Statistics</h1>
+
+<table>
+    <thead>
+        <tr>
+            <th>Experiment Type</th>
+            <th>Total Devices</th>
+            <th>Options</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var experiment in statisticsService.GetExperimentStatisticsAsync().Result)
+        {
+            <tr>
+                <td>@experiment.ExperimentType</td>
+                <td>@experiment.TotalDevices</td>
+                <td>
+                    <ul>
+                        @foreach (var option in experiment.Options)
+                        {
+                            <li>@option.OptionValue: @option.DevicesCount</li>
+                        }
+                    </ul>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
