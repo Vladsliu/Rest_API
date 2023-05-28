@@ -1,65 +1,32 @@
 using Microsoft.EntityFrameworkCore;
-using Microsoft.OpenApi.Models;
-using RestApi_test.Db;
-using System.Text.Json;
-using RestApi_test.Interfaces;
+using Rest_API_final.Data;
 
 var builder = WebApplication.CreateBuilder(args);
 
-builder.Services.AddControllers();
-builder.Services.AddSignalR();
-builder.Services.AddServerSideBlazor();
-builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddMvc();
-builder.Services.AddScoped<StatisticsService>();
-builder.Services.AddSwaggerGen();
-builder.Services.AddScoped<IExperimentRepository, ExperimentRepository>();
-builder.Services.AddSwaggerGen(c =>
-{ 
-c.SwaggerDoc("v1", new OpenApiInfo { Title = "Experiment API", Version = "v1" });
-});
+// Add services to the container.
 
-builder.Services.AddDbContext<AppDbContext>(options =>
+builder.Services.AddControllers();
+// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
+builder.Services.AddEndpointsApiExplorer();
+builder.Services.AddDbContext<DataContext>(options =>
 {
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"));
 });
+builder.Services.AddSwaggerGen();
 
 var app = builder.Build();
 
+// Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
-    app.UseSwaggerUI(c =>
-    {
-        c.SwaggerEndpoint("/swagger/v1/swagger.json", "Experiment API v1");
-    });
+    app.UseSwaggerUI();
 }
 
-app.UseRouting();
+app.UseHttpsRedirection();
 
-app.UseEndpoints(endpoints =>
-{
-    endpoints.MapControllers();
-    endpoints.MapBlazorHub();
-    endpoints.MapFallbackToPage("/_Host");
-    endpoints.MapRazorPages();
-    endpoints.MapGet("/st", async context =>
-    {
-            var experimentRepository = context.RequestServices.GetService<IExperimentRepository>();
+app.UseAuthorization();
 
-            var experiments = experimentRepository.GetExperimentData();
+app.MapControllers();
 
-            var json = JsonSerializer.Serialize(experiments);
-
-            context.Response.ContentType = "text/json";
-            await context.Response.WriteAsync(json);
-    });
-
-    app.UseHttpsRedirection();
-
-    app.UseAuthorization();
-
-    app.MapControllers();
-
-    app.Run();
-});
+app.Run();

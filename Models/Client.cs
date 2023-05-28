@@ -2,14 +2,11 @@
 
 namespace Rest_API_final.Models
 {
-    public class Experiment
+    public class Client
     {
         [Key]
         public int Id { get; set; }
-        public string OptionValue { get; set; }
-        public string Key { get; set; }
-        public DateTime DateTime { get; set; }
+        public string DeviceToken { get; set; }
         public ICollection<ExperimentResult> ExperimentResults { get; set; }
-
     }
 }
