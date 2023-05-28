@@ -17,10 +17,10 @@ namespace Rest_API_final.Repository
             return Save();
         }
 
-        //public Experiment GetExperimentByDeviceToken(string deviceToken)
-        //{//написать чтоб возвращался експеримент по девайс токену
-        //    return _context.Experiments.Where(e => e.)
-        //}
+        public Experiment GetExperiment(string deviceToken)
+        {
+            return _context.Experiments.Where(e => e.Client.DeviceToken == deviceToken).FirstOrDefault();
+        }
 
         public ICollection<Experiment> GetExperiments()
         {

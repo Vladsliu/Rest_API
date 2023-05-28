@@ -12,19 +12,7 @@ namespace Rest_API_final.Data
 
         public DbSet<Client> Clients { get; set; }
         public DbSet<Experiment> Experiments { get; set; }
-        public DbSet<ExperimentResult> ExperimentResults { get; set; }
 
-        protected override void OnModelCreating(ModelBuilder modelBuilder)
-        {
-            modelBuilder.Entity<ExperimentResult>()
-                .HasOne(er => er.Client)
-                .WithMany(c => c.ExperimentResults)
-                .HasForeignKey(er => er.ClientId);
-
-            modelBuilder.Entity<ExperimentResult>()
-                .HasOne(er => er.Experiment)
-                .WithMany(c => c.ExperimentResults)
-                .HasForeignKey(er => er.ExperimentId);
-        }
+       
     }
 }

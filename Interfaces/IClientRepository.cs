@@ -6,7 +6,7 @@ namespace Rest_API_final.Interfaces
     {
         ICollection<Client> GetClients();
         bool ClientExist(string deviceToken);
-        bool CreateClient(Client client);
+        int CreateClient(Client client);
         bool Save();
 
     }

@@ -13,13 +13,15 @@ namespace Rest_API_final.Repository
         }
         public bool ClientExist(string deviceToken)
         {
-            return _context.Clients.Any(c => c.DeviceToken == deviceToken);
+            var a = _context.Clients.Any(c => c.DeviceToken == deviceToken);
+            return a;
         }
 
-        public bool CreateClient(Client client)
+        public int CreateClient(Client client)
         {
             _context.Add(client);
-            return Save();
+            Save();
+            return client.Id;
         }
 
         public ICollection<Client> GetClients()

@@ -10,12 +10,10 @@ namespace Rest_API_final.Controllers
     {
         private readonly IClientRepository _clientRepository;
         private readonly IExperimentRepository _experimentRepository;
-        private readonly IExperimentResultRepository _experimentResultRepository;
-        public ExperimentController(IClientRepository clientRepository, IExperimentRepository experimentRepository, IExperimentResultRepository experimentResultRepository)
+        public ExperimentController(IClientRepository clientRepository, IExperimentRepository experimentRepository)
         {
             _clientRepository = clientRepository;
             _experimentRepository = experimentRepository;
-            _experimentResultRepository = experimentResultRepository;
         }
 
         [HttpGet]
@@ -27,12 +25,18 @@ namespace Rest_API_final.Controllers
           
             if (_clientRepository.ClientExist(client.DeviceToken))
             {
-               var oldExperRes = _experimentResultRepository.GetExperimentResultByDeviceToken(client.DeviceToken);//???
+                var existExperiment = _experimentRepository.GetExperiment(client.DeviceToken);
+
+                ExperimentDTO existDto = new ExperimentDTO
+                {
+                    Key = existExperiment.Key,
+                    Value = existExperiment.OptionValue
+                };
+
+                return Ok(existDto);
             }
-            else
-            {
-                _clientRepository.CreateClient(client);
-            }
+            
+            var newClient = _clientRepository.CreateClient(client);
          
             List<string> colors = new List<string> { "#FF0000", "#00FF00", "#0000FF" };
 
@@ -43,10 +47,11 @@ namespace Rest_API_final.Controllers
 
             Experiment experiment = new Experiment
             {
+                ClientId = newClient,
                 Key = "button_color",
                 OptionValue = randomColor,
+                DateTime = DateTime.Now,
             };
-
      
             if (!_experimentRepository.CreateExperiment(experiment))
             {
@@ -58,8 +63,8 @@ namespace Rest_API_final.Controllers
                 Key = experiment.Key,
                 Value = experiment.OptionValue
             };
+
             return Ok(experimDto);
-            
         }
     }
 }

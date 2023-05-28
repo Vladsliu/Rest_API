@@ -10,6 +10,6 @@ namespace Rest_API_final.Models
         [BindNever]
         public int Id { get; set; }
         public string DeviceToken { get; set; }
-        public ICollection<ExperimentResult> ExperimentResults { get; set; }
+        public ICollection<Experiment> Experiments { get; set; }
     }
 }
