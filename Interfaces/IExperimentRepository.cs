@@ -4,7 +4,8 @@ namespace Rest_API_final.Interfaces
 {
     public interface IExperimentRepository
     {
-        ICollection<Experiment> GetExperiments();
+        int GetValueOfExperiment(string key);
+        int GetCountOfExperimentByOptinValue(string optionValue);
         Experiment GetExperiment(string deviceToken);
         bool CreateExperiment(Experiment experiment);
         bool Save();

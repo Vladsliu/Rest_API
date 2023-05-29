@@ -4,9 +4,9 @@ namespace Rest_API_final.Interfaces
 {
     public interface IClientRepository
     {
-        ICollection<Client> GetClients();
         bool ClientExist(string deviceToken);
         int CreateClient(Client client);
+        string GetKeyByClient(Client client);
         bool Save();
 
     }

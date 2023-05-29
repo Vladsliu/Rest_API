@@ -17,14 +17,19 @@ namespace Rest_API_final.Repository
             return Save();
         }
 
+        public int GetCountOfExperimentByOptinValue(string optionValue)
+        {
+           return _context.Experiments.Count(e => e.OptionValue == optionValue);
+        }
+
         public Experiment GetExperiment(string deviceToken)
         {
             return _context.Experiments.Where(e => e.Client.DeviceToken == deviceToken).FirstOrDefault();
         }
 
-        public ICollection<Experiment> GetExperiments()
+        public int GetValueOfExperiment(string Key)
         {
-            return _context.Experiments.ToList();
+            return _context.Experiments.Count(e => e.Key == Key);
         }
 
         public bool Save()

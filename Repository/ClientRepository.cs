@@ -24,9 +24,9 @@ namespace Rest_API_final.Repository
             return client.Id;
         }
 
-        public ICollection<Client> GetClients()
+        public string GetKeyByClient(Client client)
         {
-            return _context.Clients.ToList();
+            return _context.Experiments.Where(e => e.ClientId == client.Id).Select(c => c.OptionValue).ToString();
         }
 
         public bool Save()

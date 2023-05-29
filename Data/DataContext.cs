@@ -12,7 +12,5 @@ namespace Rest_API_final.Data
 
         public DbSet<Client> Clients { get; set; }
         public DbSet<Experiment> Experiments { get; set; }
-
-       
     }
 }
